@@ -1,6 +1,7 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "Player.h"
 
 
 using namespace std;
@@ -42,6 +43,9 @@ void Initialize(void)
     MacUILib_clearScreen();
 
     exitFlag = false;
+    
+
+
 }
 
 void GetInput(void)
@@ -56,7 +60,10 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
+   
     MacUILib_clearScreen();    
+    
+    
 
 }
 
