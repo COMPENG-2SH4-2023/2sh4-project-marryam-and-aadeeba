@@ -53,7 +53,7 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    
+
     
     /* gameMechanics object on the heap, and 
     initialize its fields accordingly */
