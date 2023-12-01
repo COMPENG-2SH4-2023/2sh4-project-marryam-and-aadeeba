@@ -9,7 +9,7 @@ Player::Player(GameMechs* thisGMRef)
 
     // more actions to be included
     // Set up position using objPos
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeX()/2, '*'); 
+    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*'); 
     
 }
 
@@ -23,7 +23,8 @@ Player::~Player()
 void Player::getPlayerPos(objPos &returnPos)
 {
     // return the reference to the playerPos arrray list
-    returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
+    // returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
+    returnPos.setObjPos(playerPos);
 }
 
 void Player::updatePlayerDir()

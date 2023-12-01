@@ -58,8 +58,6 @@ void Initialize(void)
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     myPlayer = new Player(myGM);
     
-
-
 }
 
 void GetInput(void)
@@ -82,6 +80,8 @@ void RunLogic(void)
     myPlayer->getPlayerPos(tempPlayer);
     myPlayer->updatePlayerDir();  
     myPlayer->movePlayer(); 
+
+    
     myGM->generateFood(tempPlayer);
 
     /*access the correct field in the gameMechanics object through the getter method to
@@ -98,16 +98,22 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();  
+    // for(int i = 0; i < myGM->getBoardSizeX(); i++){
+    //     for(int j = 0; j< myGM->getBoardSizeY(); j++){
+
+    //     }
+    // }
+    // MacUILib_printf()
 
     // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
-    int i, j;
+    
     objPos tempPlayer;
     objPos tempFood;
     myGM->getFoodPos(tempFood);
     myPlayer->getPlayerPos(tempPlayer);
 
-    for(i = 0; i < myGM->getBoardSizeY(); i++){
-        for(j = 0; j < myGM->getBoardSizeX(); j++){
+    for(int i = 0; i < myGM->getBoardSizeY(); i++){
+        for(int j = 0; j < myGM->getBoardSizeX(); j++){
             if(i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1){
                 MacUILib_printf("%c", '#');
             }
@@ -133,7 +139,9 @@ void DrawScreen(void)
                     myGM->getBoardSizeY(), 
                     tempPlayer.x, tempPlayer.y, tempPlayer.symbol);
     
-    MacUILib_printf("Score: %d", myGM->getScore());
+    MacUILib_printf("Score: %d\n", myGM->getScore());
+    // myGM->getFoodPos();
+    MacUILib_printf("Food (%c) position: <%d, %d>", tempFood.symbol, tempFood.x, tempFood.y);
     
 
 }
