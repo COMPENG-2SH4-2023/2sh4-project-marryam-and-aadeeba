@@ -12,7 +12,7 @@ Player::Player(GameMechs* thisGMRef)
     objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*'); 
     playerPosList = new objPosArrayList();
-    playerPosList.insertHead(tempPos);
+    playerPosList->insertHead(tempPos);
 }
 
 
@@ -79,7 +79,7 @@ void Player::movePlayer()
     
     objPos newHead;
     objPos currentHead;
-    playerPosList.getHeadElement(currentHead);
+    playerPosList->getHeadElement(currentHead);
 
     switch (myDir)
     {
