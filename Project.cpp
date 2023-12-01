@@ -53,11 +53,13 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     
+    
     /* gameMechanics object on the heap, and 
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     myPlayer = new Player(myGM);
     
+
 }
 
 void GetInput(void)
@@ -77,16 +79,26 @@ void GetInput(void)
 void RunLogic(void)
 {
     objPos tempPlayer;
+    objPos tempFood;
     myPlayer->getPlayerPos(tempPlayer);
+    myGM->getFoodPos(tempFood);
+
     myPlayer->updatePlayerDir();  
     myPlayer->movePlayer(); 
 
-    
-    myGM->generateFood(tempPlayer);
+    // collision detection:
+    if(tempPlayer.isPosEqual(&tempFood)){
+        //update score when food collected
+        myGM->generateFood(tempPlayer);
+    }
+    // else if(tempPlayer.x == && tempPlayer.y ==){
+    //     //lose game
+    // }
+
 
     /*access the correct field in the gameMechanics object through the getter method to
     process the input character*/
-
+    
     // choose the correct action - what's this asking for?
 
     /*clear the input field in gameMechanics to avoid double-
@@ -134,14 +146,12 @@ void DrawScreen(void)
 
 
 
-    MacUILib_printf("BoardSize: %dx%d, player Pos: <%d, %d> + %c\n", 
+    MacUILib_printf("BoardSize: %dx%d\nplayer Pos: <%d, %d> + %c\nfood Pos: <%d, %d> + %c\nScore: %d\n", 
                     myGM->getBoardSizeX(), 
                     myGM->getBoardSizeY(), 
-                    tempPlayer.x, tempPlayer.y, tempPlayer.symbol);
-    
-    MacUILib_printf("Score: %d\n", myGM->getScore());
-    // myGM->getFoodPos();
-    MacUILib_printf("Food (%c) position: <%d, %d>", tempFood.symbol, tempFood.x, tempFood.y);
+                    tempPlayer.x, tempPlayer.y, tempPlayer.symbol,
+                    tempFood.x, tempFood.y, tempFood.symbol,
+                    myGM->getScore());
     
 
 }
