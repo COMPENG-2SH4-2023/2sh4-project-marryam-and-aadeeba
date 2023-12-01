@@ -119,7 +119,7 @@ You may consider changing incrementScore method to
 allow the score to be increased by numbers other than 1.
 */
 
-void GameMechs::generateFood(objPos blockOff)
+void GameMechs::generateFood(objPosArrayList blockOff)
 {
     // random generate x and y coord (make sure not barder or blockOff pos)
     // generating number betwwen 0 - (cols-2 = 18)
@@ -128,6 +128,7 @@ void GameMechs::generateFood(objPos blockOff)
     
 
     // use is position equal in objPos class
+
     while(foodPos.isPosEqual(&blockOff)) // while the food and blockOff positions are the same keep doing below steps
     {
         foodPos.x = (rand() % (boardSizeX - 2)) + 1; // regenerating x
