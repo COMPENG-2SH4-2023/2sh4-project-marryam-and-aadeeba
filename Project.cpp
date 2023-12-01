@@ -53,6 +53,7 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
     
+    
     /* gameMechanics object on the heap, and 
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
@@ -112,16 +113,22 @@ void RunLogic(void)
 void DrawScreen(void)
 {
     MacUILib_clearScreen();  
+    // for(int i = 0; i < myGM->getBoardSizeX(); i++){
+    //     for(int j = 0; j< myGM->getBoardSizeY(); j++){
+
+    //     }
+    // }
+    // MacUILib_printf()
 
     // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
-    int i, j;
+    
     objPos tempPlayer;
     objPos tempFood;
     myGM->getFoodPos(tempFood);
     myPlayer->getPlayerPos(tempPlayer);
 
-    for(i = 0; i < myGM->getBoardSizeY(); i++){
-        for(j = 0; j < myGM->getBoardSizeX(); j++){
+    for(int i = 0; i < myGM->getBoardSizeY(); i++){
+        for(int j = 0; j < myGM->getBoardSizeX(); j++){
             if(i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1){
                 MacUILib_printf("%c", '#');
             }

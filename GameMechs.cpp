@@ -43,6 +43,7 @@ GameMechs::GameMechs(int boardX, int boardY)
     loseFlag = false; 
     score = 0; 
     foodPos.setObjPos(-1, -1, 'o'); 
+    
 }
 
 // do you need a destructor? - not yet onlt when u hv data memeber thats on heap
