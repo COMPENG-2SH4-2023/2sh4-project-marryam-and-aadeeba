@@ -58,7 +58,7 @@ void Initialize(void)
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     // myPlayer = new Player(myGM);
 
-    exitFlag = false;
+    // exitFlag = false;
     
 
 
@@ -120,7 +120,7 @@ void CleanUp(void)
 
     // deleting the gameMechanics object from the heap
     // do i do this inside another class or here?? : 
-    delete myGM; 
+    // delete myGM; 
 
 
 }
