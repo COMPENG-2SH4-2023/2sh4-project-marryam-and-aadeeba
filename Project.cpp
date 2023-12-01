@@ -78,7 +78,8 @@ void GetInput(void)
 
 void RunLogic(void)
 {
-    myPlayer->updatePlayerDir();   
+    myPlayer->updatePlayerDir();  
+    myPlayer->movePlayer(); 
 
     /*access the correct field in the gameMechanics object through the getter method to
     process the input character*/
