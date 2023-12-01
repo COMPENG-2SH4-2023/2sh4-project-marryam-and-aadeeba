@@ -9,8 +9,10 @@ Player::Player(GameMechs* thisGMRef)
 
     // more actions to be included
     // Set up position using objPos
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*'); 
-    
+    objPos tempPos;
+    tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*'); 
+    playerPosList = new objPosArrayList();
+    playerPosList.insertHead(tempPos);
 }
 
 
@@ -18,13 +20,13 @@ Player::~Player()
 {
     // delete any heap members here
     delete mainGameMechsRef;
+    delete playerPosList;
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
     // return the reference to the playerPos arrray list
-    // returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
-    returnPos.setObjPos(playerPos);
+    return playerPosList;
 }
 
 void Player::updatePlayerDir()
@@ -74,56 +76,62 @@ void Player::movePlayer()
     // PPA3 Finite State Machine logic
     int boardX = mainGameMechsRef->getBoardSizeX();
     int boardY = mainGameMechsRef->getBoardSizeY();
-    // objPos currentPos();
-    // getObjPos(&currentPos);
+    
+    objPos newHead;
+    objPos currentHead;
+    playerPosList.getHeadElement(currentHead);
 
     switch (myDir)
     {
         case UP:
-            if (playerPos.y > 1)
+            if (currentHead.y > 1)
             {
-                playerPos.y--;
+                currentHead.y--;
             }
             else
             {
-                playerPos.y = boardY - 2; 
+                currentHead.y = boardY - 2; 
             }
             break;
 
         case RIGHT:
-            if (playerPos.x < boardX - 2)
+            if (currentHead.x < boardX - 2)
             {
-                playerPos.x++;
+                currentHead.x++;
             }
             else
             {
-                playerPos.x = 1;
+                currentHead.x = 1;
             }
             break;
 
         case LEFT:
-            if (playerPos.x > 1)
+            if (currentHead.x > 1)
             {
-                playerPos.x--;
+                currentHead.x--;
             }
             else
             {
-                playerPos.x = boardX - 2;
+                currentHead.x = boardX - 2;
             }
             break;
 
         case DOWN:
-            if (playerPos.y < boardY - 2)
+            if (currentHead.y < boardY - 2)
             {
-                playerPos.y++;
+                currentHead.y++;
             }
             else
             {
-                playerPos.y = 1;
+                currentHead.y = 1;
             }
             break;
 
         default:
             break;
     }
+
+    playerPosList->insertHead(currentHead);
+    playerPosList->removeTail();
+
 }
