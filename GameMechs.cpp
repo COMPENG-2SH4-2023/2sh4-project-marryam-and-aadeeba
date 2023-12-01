@@ -20,7 +20,7 @@ GameMechs::GameMechs() // default constructor
 
     /*initializes food position to be outside board such
     that is it not displayed, this is a common tactic*/ 
-    foodPos.setObjPos(5, 5, 'o'); 
+    foodPos.setObjPos(-1, -1, 'o'); 
 
 }
 
