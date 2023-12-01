@@ -120,21 +120,29 @@ You may consider changing incrementScore method to
 allow the score to be increased by numbers other than 1.
 */
 
-void GameMechs::generateFood(objPosArrayList blockOff)
+void GameMechs::generateFood(objPosArrayList blockOff) 
 {
+    /* the blockOff is an array of data type objPos. 
+    loop through each item in objPos and make sure the food isnts generated in
+    any of the same coordinates as blockOff*/
+
     srand(time(NULL));
     // random generate x and y coord (make sure not barder or blockOff pos)
     // generating number betwwen 0 - (cols-2 = 18)
     foodPos.x = (rand() % (boardSizeX - 2)) + 1; // cols, should i use any obj methods? 
     foodPos.y = (rand() % (boardSizeY - 2)) + 1; // rows, should i use any pbj methods? 
     
-
+    // loop through each item in blockOff array
     // use is position equal in objPos class
-
-    while(foodPos.isPosEqual(&blockOff)) // while the food and blockOff positions are the same keep doing below steps
-    {
-        foodPos.x = (rand() % (boardSizeX - 2)) + 1; // regenerating x
-        foodPos.y = (rand() % (boardSizeX - 2)) + 1; // regenerating y
+    objPos tempPos;
+    
+    for(int i = 0; i < blockOff.getSize(); i++){
+        blockOff.getElement(tempPos, i);
+        while(foodPos.isPosEqual(&tempPos)) // while the food and blockOff positions are the same keep doing below steps
+        {
+            foodPos.x = (rand() % (boardSizeX - 2)) + 1; // regenerating x
+            foodPos.y = (rand() % (boardSizeX - 2)) + 1; // regenerating y
+        }
     }
 }
 
