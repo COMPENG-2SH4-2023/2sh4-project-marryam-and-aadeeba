@@ -57,6 +57,9 @@ void Initialize(void)
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     myPlayer = new Player(myGM);
+    objPos tempPlayer;
+    myPlayer->getPlayerPos(tempPlayer);
+    myGM->generateFood(tempPlayer);
     
 
 }

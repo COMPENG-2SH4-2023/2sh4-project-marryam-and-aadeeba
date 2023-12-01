@@ -20,7 +20,7 @@ GameMechs::GameMechs() // default constructor
 
     /*initializes food position to be outside board such
     that is it not displayed, this is a common tactic*/ 
-    foodPos.setObjPos(5, 5, 'o'); 
+    foodPos.setObjPos(-1, -1, 'o'); 
 
 }
 
@@ -42,7 +42,7 @@ GameMechs::GameMechs(int boardX, int boardY)
 
     loseFlag = false; 
     score = 0; 
-    foodPos.setObjPos(5, 5, 'o'); 
+    foodPos.setObjPos(-1, -1, 'o'); 
 }
 
 // do you need a destructor? - not yet onlt when u hv data memeber thats on heap
