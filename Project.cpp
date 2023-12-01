@@ -4,6 +4,7 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include "objPosArrayList.h"
 
 
 
@@ -60,9 +61,8 @@ void Initialize(void)
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     myPlayer = new Player(myGM);
-    objPos tempPlayer;
-    myPlayer->getPlayerPos(tempPlayer);
-    myGM->generateFood(tempPlayer);
+    objPosArrayList* playerBody = myPlayer.getPlayerPos();
+    myGM->generateFood(playerBody);
     
 
 }
@@ -83,23 +83,24 @@ void GetInput(void)
 
 void RunLogic(void)
 {
-    objPos tempPlayer;
     objPos tempFood;
-    myPlayer->getPlayerPos(tempPlayer);
+    objPos tempBody;
+    objPosArrayList* playerBody = myPlayer.getPlayerPos();
+    
     myGM->getFoodPos(tempFood);
 
     myPlayer->updatePlayerDir();  
     myPlayer->movePlayer(); 
 
-    // collision detection:
-    if(tempPlayer.isPosEqual(&tempFood)){
-        //update score when food collected
-        myGM->generateFood(tempPlayer);
-        myGM->incrementScore();
+    // collision detection with food:
+    for(int k = 0; k < playerBody->getSize(); k++){
+        playerBody->getElement(tempBody, k);
+        if(tempBody.isPosEqual(&tempFood)){
+             myGM->generateFood(playerBody);
+             myGM->incrementScore();
+        }
     }
-    // else if(tempPlayer.x == && tempPlayer.y ==){
-    //     //lose game
-    // }
+    // collision detection with self:
 
 
     /*access the correct field in the gameMechanics object through the getter method to
@@ -124,19 +125,30 @@ void DrawScreen(void)
     // MacUILib_printf()
 
     // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
-    
-    objPos tempPlayer;
+    bool drawn;
+    objPos tempBody;
     objPos tempFood;
+    objPosArrayList* playerBody = myPlayer.getPlayerPos();
     myGM->getFoodPos(tempFood);
-    myPlayer->getPlayerPos(tempPlayer);
 
     for(int i = 0; i < myGM->getBoardSizeY(); i++){
         for(int j = 0; j < myGM->getBoardSizeX(); j++){
+            
+            drawn = false;
+            
+            for(int k = 0; k < playerBody->getSize(); k++){
+                playerBody->getElement(tempBody, k);
+                if(j == tempBody.x && i == tempBody.y){
+                    MacUILib_printf("%c", tempBody.symbol);
+                    drawn = true;
+                    break;
+                }
+            }
+
+            if(drawn) continue;
+
             if(i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1){
                 MacUILib_printf("%c", '#');
-            }
-            else if(j == tempPlayer.x && i == tempPlayer.y){
-                MacUILib_printf("%c", tempPlayer.symbol);
             }
             else if(j == tempFood.x && i == tempFood.y){
                 MacUILib_printf("%c", tempFood.symbol);
