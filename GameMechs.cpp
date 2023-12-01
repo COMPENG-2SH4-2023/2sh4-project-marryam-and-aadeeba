@@ -1,5 +1,6 @@
 #include "GameMechs.h"
 #include "MacUILib.h"
+#include "objPos.h"
 
 #include <cstdlib> // srand() and rand()
 #include <time.h> // gives the time

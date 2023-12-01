@@ -1,13 +1,10 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
-<<<<<<< HEAD
 #include "GameMechs.h"
 #include "player.h"
-=======
 #include "Player.h"
 
->>>>>>> 9f47dadb17f1db2fbec75d4cba92ea132e672abb
 
 using namespace std;
 
@@ -19,7 +16,7 @@ using namespace std;
 //////////////////////
 
 GameMechs* myGM; // a pointer to a gameMechanics class in the global scope
-// Player* myPlayer;
+Player* myPlayer;
 
 
 void Initialize(void);
@@ -56,19 +53,14 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-<<<<<<< HEAD
     
     /* gameMechanics object on the heap, and 
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
-    // myPlayer = new Player(myGM);
-=======
-
-    exitFlag = false;
+    myPlayer = new Player(myGM);
     
 
 
->>>>>>> 9f47dadb17f1db2fbec75d4cba92ea132e672abb
 }
 
 void GetInput(void)
@@ -87,7 +79,7 @@ void GetInput(void)
 
 void RunLogic(void)
 {
-    // myPlayer->updatePlayerDir();   
+    myPlayer->updatePlayerDir();   
 
     /*access the correct field in the gameMechanics object through the getter method to
     process the input character*/
@@ -102,16 +94,39 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
-<<<<<<< HEAD
     MacUILib_clearScreen();  
 
     // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
-=======
-   
-    MacUILib_clearScreen();    
+    int i, j;
+    objPos tempPos;
+
+    myPlayer->getPlayerPos(tempPos);
+    for(i = 0; i < myGM->getBoardSizeY(); i++){
+        for(j = 0; j < myGM->getBoardSizeX(); j++){
+            if(i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1){
+                MacUILib_printf("%c", '#');
+            }
+            else if(j == tempPos.x && i == tempPos.y){
+                MacUILib_printf("%c", tempPos.symbol);
+            }
+            else{
+                MacUILib_printf("%c", ' ');
+            }
+        }
+        MacUILib_printf("\n");
+    }
+
+
+
+
+
+    MacUILib_printf("BoardSize: %dx%d, player Pos: <%d, %d> + %c\n", 
+                    myGM->getBoardSizeX(), 
+                    myGM->getBoardSizeY(), 
+                    tempPos.x, tempPos.y, tempPos.symbol);
     
+    MacUILib_printf("Score: %d", myGM->getScore());
     
->>>>>>> 9f47dadb17f1db2fbec75d4cba92ea132e672abb
 
 }
 
@@ -131,6 +146,6 @@ void CleanUp(void)
     // deleting the gameMechanics object from the heap
     // do i do this inside another class or here?? : 
     delete myGM; 
-
+    delete myPlayer;
 
 }
