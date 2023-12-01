@@ -52,7 +52,7 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-    
+
     
     /* gameMechanics object on the heap, and 
     initialize its fields accordingly */
@@ -93,6 +93,7 @@ void RunLogic(void)
     if(tempPlayer.isPosEqual(&tempFood)){
         //update score when food collected
         myGM->generateFood(tempPlayer);
+        myGM->incrementScore();
     }
     // else if(tempPlayer.x == && tempPlayer.y ==){
     //     //lose game

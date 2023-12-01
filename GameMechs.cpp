@@ -122,6 +122,7 @@ allow the score to be increased by numbers other than 1.
 
 void GameMechs::generateFood(objPos blockOff)
 {
+    srand(time(NULL));
     // random generate x and y coord (make sure not barder or blockOff pos)
     // generating number betwwen 0 - (cols-2 = 18)
     foodPos.x = (rand() % (boardSizeX - 2)) + 1; // cols, should i use any obj methods? 
