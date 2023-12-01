@@ -1,8 +1,13 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+<<<<<<< HEAD
 #include "GameMechs.h"
 #include "player.h"
+=======
+#include "Player.h"
+
+>>>>>>> 9f47dadb17f1db2fbec75d4cba92ea132e672abb
 
 using namespace std;
 
@@ -51,11 +56,19 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
+<<<<<<< HEAD
     
     /* gameMechanics object on the heap, and 
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     // myPlayer = new Player(myGM);
+=======
+
+    exitFlag = false;
+    
+
+
+>>>>>>> 9f47dadb17f1db2fbec75d4cba92ea132e672abb
 }
 
 void GetInput(void)
@@ -89,9 +102,16 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
+<<<<<<< HEAD
     MacUILib_clearScreen();  
 
     // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
+=======
+   
+    MacUILib_clearScreen();    
+    
+    
+>>>>>>> 9f47dadb17f1db2fbec75d4cba92ea132e672abb
 
 }
 
