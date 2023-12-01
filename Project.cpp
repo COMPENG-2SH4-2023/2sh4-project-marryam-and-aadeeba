@@ -78,8 +78,11 @@ void GetInput(void)
 
 void RunLogic(void)
 {
+    objPos tempPlayer;
+    myPlayer->getPlayerPos(tempPlayer);
     myPlayer->updatePlayerDir();  
     myPlayer->movePlayer(); 
+    myGM->generateFood(tempPlayer);
 
     /*access the correct field in the gameMechanics object through the getter method to
     process the input character*/
@@ -98,16 +101,21 @@ void DrawScreen(void)
 
     // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
     int i, j;
-    objPos tempPos;
+    objPos tempPlayer;
+    objPos tempFood;
+    myGM->getFoodPos(tempFood);
+    myPlayer->getPlayerPos(tempPlayer);
 
-    myPlayer->getPlayerPos(tempPos);
     for(i = 0; i < myGM->getBoardSizeY(); i++){
         for(j = 0; j < myGM->getBoardSizeX(); j++){
             if(i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1){
                 MacUILib_printf("%c", '#');
             }
-            else if(j == tempPos.x && i == tempPos.y){
-                MacUILib_printf("%c", tempPos.symbol);
+            else if(j == tempPlayer.x && i == tempPlayer.y){
+                MacUILib_printf("%c", tempPlayer.symbol);
+            }
+            else if(j == tempFood.x && i == tempFood.y){
+                MacUILib_printf("%c", tempFood.symbol);
             }
             else{
                 MacUILib_printf("%c", ' ');
@@ -123,7 +131,7 @@ void DrawScreen(void)
     MacUILib_printf("BoardSize: %dx%d, player Pos: <%d, %d> + %c\n", 
                     myGM->getBoardSizeX(), 
                     myGM->getBoardSizeY(), 
-                    tempPos.x, tempPos.y, tempPos.symbol);
+                    tempPlayer.x, tempPlayer.y, tempPlayer.symbol);
     
     MacUILib_printf("Score: %d", myGM->getScore());
     
