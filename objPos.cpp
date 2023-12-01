@@ -14,6 +14,10 @@ objPos::objPos(objPos &o)
     symbol = o.symbol;
 }
 
+objPos::~objPos()
+{
+    
+}
 
 objPos::objPos(int xPos, int yPos, char sym)
 {

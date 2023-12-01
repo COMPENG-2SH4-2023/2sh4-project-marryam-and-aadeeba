@@ -1,4 +1,5 @@
 #include "objPosArrayList.h"
+#include "objPos.h"
 using namespace std;
 
 objPosArrayList::objPosArrayList()
