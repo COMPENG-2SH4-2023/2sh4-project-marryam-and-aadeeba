@@ -25,9 +25,17 @@ class GameMechs
         int boardSizeX;
         int boardSizeY;
 
+        // added
+        bool loseFlag;
+        int score; 
+        objPos foodPos; // 2B
+
+
     public:
         GameMechs();
         GameMechs(int boardX, int boardY);
+
+        ~GameMechs(); // <- is it needed? this class doesnt have any pointers
         
         bool getExitFlagStatus();
         void setExitTrue();
@@ -38,6 +46,17 @@ class GameMechs
 
         int getBoardSizeX();
         int getBoardSizeY();
+        
+        // added
+        bool getLoseFlagStatus(); 
+        void setLoseFlag();
+
+        int getScore(); // add const key word
+        void incrementScore();
+
+        // 2B
+        void generateFood(objPos blockOff); 
+        void getFoodPos(objPos &returnPos);
       
 
 };

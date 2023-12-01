@@ -7,6 +7,8 @@ Player::Player(GameMechs* thisGMRef)
     myDir = STOP;
 
     // more actions to be included
+    // @43:20 week 11 tut vid
+    // playerPos.setObjPos..
 }
 
 
