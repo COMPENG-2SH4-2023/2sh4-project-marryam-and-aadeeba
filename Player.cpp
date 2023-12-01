@@ -9,7 +9,7 @@ Player::Player(GameMechs* thisGMRef)
 
     // more actions to be included
     // Set up position using objPos
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeX()/2, '*'); 
+    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*'); 
     
 }
 
