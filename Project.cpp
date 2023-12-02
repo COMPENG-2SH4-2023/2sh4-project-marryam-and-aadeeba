@@ -61,8 +61,8 @@ void Initialize(void)
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     myPlayer = new Player(myGM);
-    objPosArrayList* playerBody = myPlayer.getPlayerPos();
-    myGM->generateFood(playerBody);
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    myGM->generateFood(*playerBody);
     
 
 }
@@ -85,7 +85,7 @@ void RunLogic(void)
 {
     objPos tempFood;
     objPos tempBody;
-    objPosArrayList* playerBody = myPlayer.getPlayerPos();
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
     
     myGM->getFoodPos(tempFood);
 
@@ -96,7 +96,7 @@ void RunLogic(void)
     for(int k = 0; k < playerBody->getSize(); k++){
         playerBody->getElement(tempBody, k);
         if(tempBody.isPosEqual(&tempFood)){
-             myGM->generateFood(playerBody);
+             myGM->generateFood(*playerBody);
              myGM->incrementScore();
         }
     }
@@ -128,7 +128,7 @@ void DrawScreen(void)
     bool drawn;
     objPos tempBody;
     objPos tempFood;
-    objPosArrayList* playerBody = myPlayer.getPlayerPos();
+    objPosArrayList* playerBody = myPlayer->getPlayerPos();
     myGM->getFoodPos(tempFood);
 
     for(int i = 0; i < myGM->getBoardSizeY(); i++){
@@ -164,10 +164,10 @@ void DrawScreen(void)
 
 
 
-    MacUILib_printf("BoardSize: %dx%d\nplayer Pos: <%d, %d> + %c\nfood Pos: <%d, %d> + %c\nScore: %d\n", 
+    MacUILib_printf("BoardSize: %dx%d\nplayerhead: <%d,%d> + %c\nfood Pos: <%d, %d> + %c\nScore: %d\n", 
                     myGM->getBoardSizeX(), 
                     myGM->getBoardSizeY(), 
-                    tempPlayer.x, tempPlayer.y, tempPlayer.symbol,
+                    tempBody.x, tempBody.y, tempBody.symbol,
                     tempFood.x, tempFood.y, tempFood.symbol,
                     myGM->getScore());
     
