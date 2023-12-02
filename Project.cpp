@@ -1,11 +1,9 @@
 #include <iostream>
 #include "MacUILib.h"
-#include "objPosArrayList.h"
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
 #include "objPosArrayList.h"
-
 
 
 using namespace std;
@@ -116,15 +114,7 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();  
-    // for(int i = 0; i < myGM->getBoardSizeX(); i++){
-    //     for(int j = 0; j< myGM->getBoardSizeY(); j++){
-
-    //     }
-    // }
-    // MacUILib_printf()
-
-    // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
+    MacUILib_clearScreen();    
     bool drawn;
     objPos tempBody;
     objPos tempFood;
@@ -158,12 +148,14 @@ void DrawScreen(void)
             }
         }
         MacUILib_printf("\n");
+
+
     }
 
 
 
 
-
+    // debug messages
     MacUILib_printf("BoardSize: %dx%d\nplayerhead: <%d, %d> + %c\nfood Pos: <%d, %d> + %c\nScore: %d\n", 
                     myGM->getBoardSizeX(), 
                     myGM->getBoardSizeY(),
