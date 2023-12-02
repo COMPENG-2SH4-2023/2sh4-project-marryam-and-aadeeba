@@ -51,8 +51,6 @@ GameMechs::~GameMechs(){
     
 }
 
-
-
 bool GameMechs::getExitFlagStatus()
 {
     return exitFlag;
