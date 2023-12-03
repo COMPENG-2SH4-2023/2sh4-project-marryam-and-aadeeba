@@ -163,13 +163,13 @@ void DrawScreen(void)
     // Forced-quit message
     if(myGM->getExitFlagStatus())
     {
-        MacUILib_printf("Game quit."); 
+        MacUILib_printf("\nGame quit."); 
     }
 
     // Game loss message         
     if(myGM->getLoseFlagStatus())
     {
-        MacUILib_printf("Better luck next time!"); 
+        MacUILib_printf("\nBetter luck next time!"); 
         myGM->setExitTrue();
     }
 }
