@@ -1,70 +1,23 @@
 #include "objPosArrayList.h"
-#include "objPos.h"
+
 using namespace std;
 
-objPosArrayList::objPosArrayList()
+objPosArrayList::objPosArrayList() // Default constructor
 {
     aList = new objPos[ARRAY_MAX_CAP];
     sizeList = 0;
     sizeArray = ARRAY_MAX_CAP;
 }
 
-objPosArrayList::~objPosArrayList()
+objPosArrayList::~objPosArrayList() // Destructor
 {
     delete[] aList;
-
 }
 
-int objPosArrayList::getSize()
+// 4 Getter methods listed below:
+int objPosArrayList::getSize() 
 {
     return sizeList;
-}
-
-void objPosArrayList::insertHead(objPos thisPos)
-{
-    if(sizeList == sizeArray)
-    {
-        return;
-    }
-
-    for(int i = sizeList; i > 0; i--)   
-        aList[i].setObjPos(aList[i - 1]);  // shifting towards the tail
-
-    aList[0].setObjPos(thisPos);
-    sizeList++;
-}
-
-void objPosArrayList::insertTail(objPos thisPos)
-{
-    if(sizeList == sizeArray)
-    {
-        return;
-    }
-
-    aList[sizeList++].setObjPos(thisPos);
-}
-
-void objPosArrayList::removeHead()
-{
-    if(sizeList == 0)
-    {
-        return;
-    }
-
-    for(int i = 0; i < sizeList - 1; i++)   
-        aList[i].setObjPos(aList[i + 1]);  // shifting towards the head
-
-    sizeList--;
-}
-
-void objPosArrayList::removeTail()
-{
-    if(sizeList == 0)
-    {
-        return;
-    }
-
-    sizeList--;  
 }
 
 void objPosArrayList::getHeadElement(objPos &returnPos)
@@ -96,3 +49,58 @@ void objPosArrayList::getElement(objPos &returnPos, int index)
 
     returnPos.setObjPos(aList[index]);
 }
+
+
+void objPosArrayList::insertHead(objPos thisPos)
+{
+    // Checking if the array is at max capacity
+    if(sizeList == sizeArray)
+    {
+        return;
+    }
+
+    // Creating space for a new element to be inserted at index 0
+    for(int i = sizeList; i > 0; i--){
+        aList[i].setObjPos(aList[i - 1]);  // Shifting towards the tail
+    }
+    aList[0].setObjPos(thisPos);
+    sizeList++;
+}
+
+void objPosArrayList::insertTail(objPos thisPos)
+{
+    // Checking if the array is at max capacity
+    if(sizeList == sizeArray)
+    {
+        return;
+    }
+
+    // Inserting an element at the end of the list
+    aList[sizeList++].setObjPos(thisPos); 
+}
+
+void objPosArrayList::removeHead()
+{
+    // Checking if the array is empty
+    if(sizeList == 0)
+    {
+        return;
+    }
+
+    for(int i = 0; i < sizeList - 1; i++)   
+        aList[i].setObjPos(aList[i + 1]);  // Shifting towards the head
+
+    sizeList--;
+}
+
+void objPosArrayList::removeTail()
+{
+    // Checking if the array is empty
+    if(sizeList == 0)
+    {
+        return;
+    }
+
+    sizeList--;  
+}
+

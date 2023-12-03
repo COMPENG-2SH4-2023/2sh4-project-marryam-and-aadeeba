@@ -1,41 +1,37 @@
 #include "Player.h"
-#include "objPos.h"
-// add below headers
-#include "objPosArrayList.h"
-#include "GameMechs.h"
 
-
-Player::Player(GameMechs* thisGMRef)
+Player::Player(GameMechs* thisGMRef) // Constructor
 {
+    // Intitializing data members
     mainGameMechsRef = thisGMRef;
     myDir = STOP;
+    playerPosList = new objPosArrayList();
 
-    // more actions to be included
-    // Set up position using objPos
+    // Initializing the head of the player as the first element of the array
     objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*'); 
-    
-    playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
 
 }
 
 
-Player::~Player()
+Player::~Player() // Destructor
 {
-    // delete any heap members here
     delete playerPosList;
 }
 
-objPosArrayList* Player::getPlayerPos()
+objPosArrayList* Player::getPlayerPos() // Getter
 {
-    // return the reference to the playerPos arrray list
+    // Returns the reference to the playerPos arrray list
     return playerPosList;
 }
 
 void Player::updatePlayerDir()
 {
-    // PPA3 input processing logic  
+    /* PPA3 input processing logic:
+        - Gets the input from the GameMechs ref
+        - Enum direction is updated based on what iput what collected.
+    */  
     char input = mainGameMechsRef->getInput();
     switch(input){
         case ' ':
@@ -77,7 +73,10 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
-    // PPA3 Finite State Machine logic
+    /* PPA3 Finite State Machine logic:
+        - Gets the position of the player's head and iterates it around the board.
+        - Direction is determined by the finite state enumeration set in updatePlayerPos()
+    */
     
     objPos currentHead;
     playerPosList->getHeadElement(currentHead);
@@ -116,9 +115,9 @@ void Player::movePlayer()
             break;
     }
 
+    // Sets new player position after movements and deletes tail
     playerPosList->insertHead(currentHead);
     playerPosList->removeTail();
-
 }
 
 bool Player::checkSelfCollision()
@@ -127,11 +126,13 @@ bool Player::checkSelfCollision()
     objPos tempBody;
     playerPosList->getHeadElement(head);
 
-    for(int i = 1; i < playerPosList->getSize(); i++){
+    // Iterates through the player body array and compares each position to the position of the head
+    for(int i = 2; i < playerPosList->getSize(); i++){
         playerPosList->getElement(tempBody, i);
-        if(tempBody.isPosEqual(&head)){
+        if(tempBody.isPosEqual(&head)){ 
             return true;
         }
     }
     return false;
 }
+

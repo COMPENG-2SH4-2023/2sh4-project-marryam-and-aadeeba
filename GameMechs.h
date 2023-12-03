@@ -1,6 +1,7 @@
 #ifndef GAMEMECHS_H
 #define GAMEMECHS_H
 
+// Required libraries for random food generation
 #include <cstdlib>
 #include <time.h>
 
@@ -9,56 +10,56 @@
 
 using namespace std;
 
-
 class GameMechs
 {
-    // Construct the remaining declaration from the project manual.
-
-    // Only some sample members are included here
-
-    // You will include more data members and member functions to complete your design.
-
     private:
+        /*
+        Private data members for contructing an instance of GameMechs
+        Includes:   keyboard input, 
+                    exit/loss conditions, 
+                    display screen size,
+                    food object,
+                    player score
+        */
+
         char input;
         bool exitFlag;
-        
         int boardSizeX;
         int boardSizeY;
-
-        // added
         bool loseFlag;
         int score; 
-        objPos foodPos; // 2B
-
+        objPos foodPos;
 
     public:
+        // Constructors
         GameMechs();
         GameMechs(int boardX, int boardY);
-
-        ~GameMechs(); // <- is it needed? this class doesnt have any pointers
         
+        // Destructor
+        ~GameMechs();
+
+        // Getters 
+        int getBoardSizeX();
+        int getBoardSizeY();
+        char getInput();
         bool getExitFlagStatus();
+        bool getLoseFlagStatus();
+        int getScore(); 
+        void getFoodPos(objPos &returnPos);
+        
+        // Game exit conditions
+        void setLoseFlag();
         void setExitTrue();
 
-        char getInput();
+        // Keyboard input processing
         void setInput(char this_input);
         void clearInput();
 
-        int getBoardSizeX();
-        int getBoardSizeY();
-        
-        // added
-        bool getLoseFlagStatus(); 
-        void setLoseFlag();
-
-        int getScore(); // add const key word
+        // Player score keeping
         void incrementScore();
 
-        // 2B
+        // Food generation method
         void generateFood(objPosArrayList *blockOff); 
-        void getFoodPos(objPos &returnPos);
-      
-
 };
 
 #endif

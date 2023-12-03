@@ -1,24 +1,21 @@
 #include <iostream>
+
+// All used class libraries 
 #include "MacUILib.h"
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
 #include "objPosArrayList.h"
 
-
 using namespace std;
 
 #define DELAY_CONST 100000
 
-
-//////////////////////
-// GLOBAL VARIABLES // 
-//////////////////////
-
-GameMechs* myGM; // a pointer to a gameMechanics class in the global scope
+// Global pointers to the instances of Player and GameMechs creates
+GameMechs* myGM;
 Player* myPlayer;
 
-
+// Function prototypes
 void Initialize(void);
 void GetInput(void);
 void RunLogic(void);
@@ -27,22 +24,17 @@ void LoopDelay(void);
 void CleanUp(void);
 
 
-
 int main(void)
 {
-
     Initialize();
-
-    while((myGM->getExitFlagStatus()) == false)  
+    while((myGM->getExitFlagStatus()) == false)  // Run program until exit conditions met
     {
         GetInput();
         RunLogic();
         DrawScreen();
         LoopDelay();
     }
-
     CleanUp();
-
 }
 
 
@@ -50,112 +42,136 @@ void Initialize(void)
 {
     MacUILib_init();
     MacUILib_clearScreen();
-
     
-    /* gameMechanics object on the heap, and 
-    initialize its fields accordingly */
-    myGM = new GameMechs(26, 13); // makes board that's 26x13
+    // Construct and store GameMechs and Player objects on the heap
+    myGM = new GameMechs(26, 13); // Makes a board that's 26x13
     myPlayer = new Player(myGM);
-    myGM->generateFood(myPlayer->getPlayerPos());
+    myGM->generateFood(myPlayer->getPlayerPos()); // Creates a food object at the start of the program
 }
 
 void GetInput(void)
 {
-    /*collect the input ASCII character into the corresponding field in
-    gameMechanics object using the correct setter method*/  
-
+    // Collects the input ASCII character into the corresponding field in the gameMechs object 
     myGM->getInput();
-      
 }
 
 void RunLogic(void)
 {
+    // Initializing local variables
     objPos tempFood;
     objPos tempBody;
     objPos newInsert;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
-    int length = playerBody->getSize();
     myGM->getFoodPos(tempFood);
 
+    // Player movement constrols
     myPlayer->updatePlayerDir();  
     myPlayer->movePlayer(); 
 
-    //collision detection with food:
+    /* Food collection:
+        - Gets the head of the player and compares its position to the food object's
+        - If equal, increments the score and generates a food object on the board
+        - Simulataneously inserts a new object at the start of the player array to increasing its length
+    */
     playerBody->getHeadElement(tempBody);
-    if(tempBody.isPosEqual(&tempFood)){
+    if(tempBody.isPosEqual(&tempFood))
+    {
         myGM->incrementScore();
         newInsert.setObjPos(tempBody.x, tempBody.y, '*');
         playerBody->insertHead(newInsert);
         myGM->generateFood(playerBody);
     }
-    // collision detection with self:
-    if(myPlayer->checkSelfCollision()){
-        
+
+    /* Self collision detection:
+        - Checks whether the player's head has collided with any other "piece" of its body
+        - If it does, trigger the game loss condition
+    */
+    if(myPlayer->checkSelfCollision())
+    {
+        myGM->setLoseFlag();
     }
 
-
-    /*access the correct field in the gameMechanics object through the getter method to
-    process the input character*/
-    
-    // choose the correct action - what's this asking for?
-
-    /*clear the input field in gameMechanics to avoid double-
-    processing the input*/
+    // Clears the input field in gameMechanics to avoid double-processing the input
     myGM->clearInput();
-    
 }
 
 void DrawScreen(void)
 {
-       
+    // Clearing the screen each loop
+    MacUILib_clearScreen(); 
+
+    // Initializing local variables
     bool drawn;
     objPos tempBody;
     objPos tempFood;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     myGM->getFoodPos(tempFood);
-    MacUILib_clearScreen(); 
-    for(int i = 0; i < myGM->getBoardSizeY(); i++){
-        for(int j = 0; j < myGM->getBoardSizeX(); j++){
-            
+
+    MacUILib_printf("-------- Snake :) --------\n"); // Game header message
+
+    /* Gameboard drawing routine:
+    A nested for-loop iterates through rows and columns, checking the game element it's supposed to draw.
+    It does this by getting the indexes of each object present on the board and displaying its associates symbol.
+    */
+    for(int i = 0; i < myGM->getBoardSizeY(); i++)
+    {
+        for(int j = 0; j < myGM->getBoardSizeX(); j++)
+        {
             drawn = false;
             
-            for(int k = 0; k < playerBody->getSize(); k++){
+            /* Drawing the player:
+                - Iterates through the array list of player objects
+                - Displays the symbol associates with each object instance each time it occurs
+                - Once it's drawn, sets the boolean "drawn" to true, breaking the loop to prevent overlaps
+            */
+            for(int k = 0; k < playerBody->getSize(); k++)
+            {
                 playerBody->getElement(tempBody, k);
-                if(j == tempBody.x && i == tempBody.y){
+                if(j == tempBody.x && i == tempBody.y)
+                {
                     MacUILib_printf("%c", tempBody.symbol);
                     drawn = true;
                     break;
                 }
             }
-
             if(drawn) continue;
 
-            if(i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1){
+            // Drawing the board border
+            if(i == 0 || i == myGM->getBoardSizeY() - 1 || j == 0 || j == myGM->getBoardSizeX() - 1)
+            {
                 MacUILib_printf("%c", '#');
             }
-            else if(j == tempFood.x && i == tempFood.y){
+
+            // Drawing the food object
+            else if(j == tempFood.x && i == tempFood.y)
+            {
                 MacUILib_printf("%c", tempFood.symbol);
             }
-            else{
+
+            // Filling in the rest of the board with whitespaces
+            else
+            {
                 MacUILib_printf("%c", ' ');
             }
         }
         MacUILib_printf("\n");
-
-
     }
 
+    // Welcome message and score display
+    MacUILib_printf("Press WASD to start moving the snake.\nPress SPACE to exit the game.\nScore: %d\n", myGM->getScore()); 
 
+    // Forced-quit message
+    if(myGM->getExitFlagStatus())
+    {
+        MacUILib_printf("Game quit."); 
+    }
 
-
-    MacUILib_printf("BoardSize: %dx%d\nfood Pos: <%d, %d> + %c\nplayer Pos: <%d, %d> + %c\nScore: %d\n", 
-                    myGM->getBoardSizeX(), 
-                    myGM->getBoardSizeY(), 
-                    tempBody.x, tempBody.y, tempBody.symbol,
-                    tempFood.x, tempFood.y, tempFood.symbol,
-                    myGM->getScore());
-    
-
+    // Game loss message         
+    if(myGM->getLoseFlagStatus())
+    {
+        MacUILib_printf("Better luck next time!"); 
+        myGM->setExitTrue();
+    }
 }
 
 void LoopDelay(void)
@@ -165,14 +181,10 @@ void LoopDelay(void)
 
 
 void CleanUp(void)
-{
-    // all the required end-game actions
-    MacUILib_clearScreen();    
-  
+{ 
     MacUILib_uninit();
 
-    // deleting the gameMechanics object from the heap
-    // do i do this inside another class or here?? : 
+    // Deleting all heap data to avoid memory leaks
     delete myGM; 
     delete myPlayer;
 

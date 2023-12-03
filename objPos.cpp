@@ -1,5 +1,7 @@
 #include "objPos.h"
 
+// Given object generation class
+
 objPos::objPos()
 {
     x = 0;

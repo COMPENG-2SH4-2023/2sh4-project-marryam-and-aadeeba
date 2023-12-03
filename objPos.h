@@ -1,6 +1,7 @@
 #ifndef OBJPOS_H
 #define OBJPOS_H
 
+// Given object generation class
 class objPos
 {
     public:

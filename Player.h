@@ -7,28 +7,34 @@
 
 class Player
 {
-    // Construct the remaining declaration from the project manual.
-
-    // Only some sample members are included here
-
-    // You will include more data members and member functions to complete your design.
-
     public:
-        enum Dir {UP, DOWN, LEFT, RIGHT, STOP};  // This is the direction state
+        // Direction state
+        enum Dir {UP, DOWN, LEFT, RIGHT, STOP};
     
+        // Constructor
         Player(GameMechs* thisGMRef);
+
+        // Destructor
         ~Player();
 
-        objPosArrayList* getPlayerPos(); // Upgrade this in iteration 3.
+        // Getter
+        objPosArrayList* getPlayerPos();
+
+        // Game function methods
         void updatePlayerDir();
         void movePlayer();
         bool checkSelfCollision();
 
     private:
-        objPosArrayList *playerPosList;   // Upgrade this in iteration 3.       
+        /*
+        Private data members for contructing an instance of GameMechs
+        Includes:   Array list containing each "piece" of the snake,
+                    Enumeration containing movement direction,
+                    Reference to GameMechs for player-user interactions.
+        */
+        
+        objPosArrayList *playerPosList; 
         enum Dir myDir;
-
-        // Need a reference to the Main Game Mechanisms
         GameMechs* mainGameMechsRef;
 };
 
