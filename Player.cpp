@@ -1,5 +1,8 @@
 #include "Player.h"
 #include "objPos.h"
+// add below headers
+#include "objPosArrayList.h"
+#include "GameMechs.h"
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -11,6 +14,7 @@ Player::Player(GameMechs* thisGMRef)
     // Set up position using objPos
     objPos tempPos;
     tempPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '*'); 
+    
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
 

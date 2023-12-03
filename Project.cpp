@@ -30,9 +30,6 @@ void CleanUp(void);
 
 int main(void)
 {
-    // accessing the exit flag in the gameMechanics object
-    // exitFlag = myGM->exitFlag; // is this right? no...?
-    // exitFlag = myGM->getExitFlagStatus()  <-- this is right
 
     Initialize();
 
@@ -60,22 +57,15 @@ void Initialize(void)
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     myPlayer = new Player(myGM);
     myGM->generateFood(myPlayer->getPlayerPos());
-    
-
 }
 
 void GetInput(void)
 {
-    /*collect the input ASCII character into the corresponding field in gameMechanics object using the
-    correct setter method*/  
-
-    // do i getInput first then setInput?
-    // char input = myGM->GetInput(); // getting input 
-    // myGM->setInput(input); // storing input
+    /*collect the input ASCII character into the corresponding field in
+    gameMechanics object using the correct setter method*/  
 
     myGM->getInput();
-    
-    // wouldnt input need to be a global variable now?    
+      
 }
 
 void RunLogic(void)
