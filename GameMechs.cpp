@@ -43,6 +43,8 @@ GameMechs::GameMechs(int boardX, int boardY)
     loseFlag = false; 
     
     foodPos.setObjPos(-1, -1, 'o'); 
+    score = 0; 
+    foodPos.setObjPos(3, 3, 'o'); 
     
 }
 
@@ -127,16 +129,17 @@ void GameMechs::generateFood(objPosArrayList *blockOff)
     foodPos.y = (rand() % (boardSizeY - 2)) + 1; // rows, should i use any pbj methods? 
     
     // // loop through each item in blockOff array
-    // objPos tempPos;
+    objPos tempPos;
     
-    for(int i = 0; i < blockOff.getSize(); i++){
-        blockOff.getElement(tempPos, i);
+    for(int i = 0; i < blockOff->getSize(); i++){
+        blockOff->getElement(tempPos, i);
         while(foodPos.isPosEqual(&tempPos)) // while the food and blockOff positions are the same keep doing below steps
         {
             foodPos.x = (rand() % (boardSizeX - 2)) + 1; // regenerating x
             foodPos.y = (rand() % (boardSizeX - 2)) + 1; // regenerating y
         }
     }
+
 }
 
 void GameMechs::getFoodPos(objPos &returnFood)

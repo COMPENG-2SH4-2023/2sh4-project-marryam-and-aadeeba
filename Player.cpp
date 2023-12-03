@@ -17,13 +17,13 @@ Player::Player(GameMechs* thisGMRef)
     
     playerPosList = new objPosArrayList();
     playerPosList->insertHead(tempPos);
+
 }
 
 
 Player::~Player()
 {
     // delete any heap members here
-    delete mainGameMechsRef;
     delete playerPosList;
 }
 
@@ -78,55 +78,36 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     // PPA3 Finite State Machine logic
-    int boardX = mainGameMechsRef->getBoardSizeX();
-    int boardY = mainGameMechsRef->getBoardSizeY();
     
-    objPos newHead;
     objPos currentHead;
     playerPosList->getHeadElement(currentHead);
 
     switch (myDir)
     {
         case UP:
-            if (currentHead.y > 1)
-            {
-                currentHead.y--;
-            }
-            else
-            {
-                currentHead.y = boardY - 2; 
+            currentHead.y--;
+            if(currentHead.y <= 0){
+                currentHead.y = mainGameMechsRef->getBoardSizeY() - 2;
             }
             break;
 
         case RIGHT:
-            if (currentHead.x < boardX - 2)
-            {
-                currentHead.x++;
-            }
-            else
-            {
+            currentHead.x++;
+            if(currentHead.x >= mainGameMechsRef->getBoardSizeX()- 2){
                 currentHead.x = 1;
             }
             break;
 
         case LEFT:
-            if (currentHead.x > 1)
-            {
-                currentHead.x--;
-            }
-            else
-            {
-                currentHead.x = boardX - 2;
+            currentHead.x--;
+            if(currentHead.x <= 0){
+                currentHead.x = mainGameMechsRef->getBoardSizeX() - 2;
             }
             break;
 
         case DOWN:
-            if (currentHead.y < boardY - 2)
-            {
-                currentHead.y++;
-            }
-            else
-            {
+            currentHead.y++;
+            if(currentHead.y >= mainGameMechsRef->getBoardSizeY()- 2){
                 currentHead.y = 1;
             }
             break;

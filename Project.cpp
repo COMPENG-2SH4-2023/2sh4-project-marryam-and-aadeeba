@@ -1,11 +1,9 @@
 #include <iostream>
 #include "MacUILib.h"
-#include "objPosArrayList.h"
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
 #include "objPosArrayList.h"
-
 
 
 using namespace std;
@@ -56,16 +54,9 @@ void Initialize(void)
     
     /* gameMechanics object on the heap, and 
     initialize its fields accordingly */
-    myGM = new GameMechs(26, 13); // 26x13 board 
-    myPlayer = new Player(myGM); 
-    objPosArrayList* playerBody = myPlayer->getPlayerPos();
-    myGM->generateFood();
-
-    // gdb code  - break and output player position
-    // objPos gdb;
-    // playerBody->getHeadElement(gdb);
-
-
+    myGM = new GameMechs(26, 13); // makes board that's 26x13
+    myPlayer = new Player(myGM);
+    myGM->generateFood(myPlayer->getPlayerPos());
 }
 
 void GetInput(void)
@@ -81,20 +72,21 @@ void RunLogic(void)
 {
     objPos tempFood;
     objPos tempBody;
+    objPos newInsert;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
-    
-    myGM->getFoodPos(tempFood); // stores food pos in tempFood
+    int length = playerBody->getSize();
+    myGM->getFoodPos(tempFood);
 
     myPlayer->updatePlayerDir();  
     myPlayer->movePlayer(); 
 
-    // collision detection with food:
-    for(int k = 0; k < playerBody->getSize(); k++){
-        playerBody->getElement(tempBody, k);
-        if(tempBody.isPosEqual(&tempFood)){
-            //  myGM->generateFood(*playerBody);
-             myGM->incrementScore();
-        }
+    //collision detection with food:
+    playerBody->getHeadElement(tempBody);
+    if(tempBody.isPosEqual(&tempFood)){
+        myGM->incrementScore();
+        newInsert.setObjPos(tempBody.x, tempBody.y, '*');
+        playerBody->insertHead(newInsert);
+        myGM->generateFood(playerBody);
     }
     // collision detection with self:
 
@@ -112,21 +104,13 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();  
-    // for(int i = 0; i < myGM->getBoardSizeX(); i++){
-    //     for(int j = 0; j< myGM->getBoardSizeY(); j++){
-
-    //     }
-    // }
-    // MacUILib_printf()
-
-    // MacUILib_printf("print stuff" ) @50:42 wwek 11 tut  
+       
     bool drawn;
     objPos tempBody;
     objPos tempFood;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     myGM->getFoodPos(tempFood);
-
+    MacUILib_clearScreen(); 
     for(int i = 0; i < myGM->getBoardSizeY(); i++){
         for(int j = 0; j < myGM->getBoardSizeX(); j++){
             
@@ -154,13 +138,14 @@ void DrawScreen(void)
             }
         }
         MacUILib_printf("\n");
+
+
     }
 
 
 
 
-
-    MacUILib_printf("BoardSize: %dx%d\nplayerhead: <%d,%d> + %c\nfood Pos: <%d, %d> + %c\nScore: %d\n", 
+    MacUILib_printf("BoardSize: %dx%d\nfood Pos: <%d, %d> + %c\nplayer Pos: <%d, %d> + %c\nScore: %d\n", 
                     myGM->getBoardSizeX(), 
                     myGM->getBoardSizeY(), 
                     tempBody.x, tempBody.y, tempBody.symbol,

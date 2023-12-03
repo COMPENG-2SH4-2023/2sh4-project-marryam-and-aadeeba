@@ -32,7 +32,6 @@ void objPosArrayList::insertHead(objPos thisPos)
 
     aList[0].setObjPos(thisPos);
     sizeList++;
-
 }
 
 void objPosArrayList::insertTail(objPos thisPos)
