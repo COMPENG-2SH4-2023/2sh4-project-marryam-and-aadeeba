@@ -42,7 +42,7 @@ GameMechs::GameMechs(int boardX, int boardY)
 
     loseFlag = false; 
     score = 0; 
-    foodPos.setObjPos(-1, -1, 'o'); 
+    foodPos.setObjPos(3, 3, 'o'); 
     
 }
 
@@ -118,7 +118,7 @@ You may consider changing incrementScore method to
 allow the score to be increased by numbers other than 1.
 */
 
-void GameMechs::generateFood(objPosArrayList blockOff) 
+void GameMechs::generateFood(objPosArrayList *blockOff) 
 {
     /* the blockOff is an array of data type objPos. 
     loop through each item in objPos and make sure the food isnts generated in
@@ -134,14 +134,15 @@ void GameMechs::generateFood(objPosArrayList blockOff)
     // use is position equal in objPos class
     objPos tempPos;
     
-    for(int i = 0; i < blockOff.getSize(); i++){
-        blockOff.getElement(tempPos, i);
+    for(int i = 0; i < blockOff->getSize(); i++){
+        blockOff->getElement(tempPos, i);
         while(foodPos.isPosEqual(&tempPos)) // while the food and blockOff positions are the same keep doing below steps
         {
             foodPos.x = (rand() % (boardSizeX - 2)) + 1; // regenerating x
             foodPos.y = (rand() % (boardSizeX - 2)) + 1; // regenerating y
         }
     }
+
 }
 
 void GameMechs::getFoodPos(objPos &returnFood)

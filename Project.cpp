@@ -59,8 +59,7 @@ void Initialize(void)
     initialize its fields accordingly */
     myGM = new GameMechs(26, 13); // makes board that's 26x13
     myPlayer = new Player(myGM);
-    objPosArrayList* playerBody = myPlayer->getPlayerPos();
-    myGM->generateFood(*playerBody);
+    myGM->generateFood(myPlayer->getPlayerPos());
     
 
 }
@@ -83,20 +82,21 @@ void RunLogic(void)
 {
     objPos tempFood;
     objPos tempBody;
+    objPos newInsert;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
-    
+    int length = playerBody->getSize();
     myGM->getFoodPos(tempFood);
 
     myPlayer->updatePlayerDir();  
     myPlayer->movePlayer(); 
 
-    // collision detection with food:
-    for(int k = 0; k < playerBody->getSize(); k++){
-        playerBody->getElement(tempBody, k);
-        if(tempBody.isPosEqual(&tempFood)){
-             myGM->generateFood(*playerBody);
-             myGM->incrementScore();
-        }
+    //collision detection with food:
+    playerBody->getHeadElement(tempBody);
+    if(tempBody.isPosEqual(&tempFood)){
+        myGM->incrementScore();
+        newInsert.setObjPos(tempBody.x, tempBody.y, '*');
+        playerBody->insertHead(newInsert);
+        myGM->generateFood(playerBody);
     }
     // collision detection with self:
 
@@ -114,13 +114,13 @@ void RunLogic(void)
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();    
+       
     bool drawn;
     objPos tempBody;
     objPos tempFood;
     objPosArrayList* playerBody = myPlayer->getPlayerPos();
     myGM->getFoodPos(tempFood);
-
+    MacUILib_clearScreen(); 
     for(int i = 0; i < myGM->getBoardSizeY(); i++){
         for(int j = 0; j < myGM->getBoardSizeX(); j++){
             
@@ -155,11 +155,10 @@ void DrawScreen(void)
 
 
 
-
-    MacUILib_printf("BoardSize: %dx%d\nplayer Pos: <%d, %d> + %c\nfood Pos: <%d, %d> + %c\nScore: %d\n", 
+    MacUILib_printf("BoardSize: %dx%d\nfood Pos: <%d, %d> + %c\nplayer Pos: <%d, %d> + %c\nScore: %d\n", 
                     myGM->getBoardSizeX(), 
                     myGM->getBoardSizeY(), 
-                    tempPlayer.x, tempPlayer.y, tempPlayer.symbol,
+                    tempBody.x, tempBody.y, tempBody.symbol,
                     tempFood.x, tempFood.y, tempFood.symbol,
                     myGM->getScore());
     
