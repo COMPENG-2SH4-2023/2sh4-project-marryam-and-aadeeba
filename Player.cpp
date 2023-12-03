@@ -89,7 +89,7 @@ void Player::movePlayer()
 
         case RIGHT:
             currentHead.x++;
-            if(currentHead.x >= mainGameMechsRef->getBoardSizeX()){
+            if(currentHead.x >= mainGameMechsRef->getBoardSizeX()- 2){
                 currentHead.x = 1;
             }
             break;
@@ -103,7 +103,7 @@ void Player::movePlayer()
 
         case DOWN:
             currentHead.y++;
-            if(currentHead.y >= mainGameMechsRef->getBoardSizeY()){
+            if(currentHead.y >= mainGameMechsRef->getBoardSizeY()- 2){
                 currentHead.y = 1;
             }
             break;
