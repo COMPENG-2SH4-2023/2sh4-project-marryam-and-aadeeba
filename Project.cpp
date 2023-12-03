@@ -99,6 +99,9 @@ void RunLogic(void)
         myGM->generateFood(playerBody);
     }
     // collision detection with self:
+    if(myPlayer->checkSelfCollision()){
+        
+    }
 
 
     /*access the correct field in the gameMechanics object through the getter method to

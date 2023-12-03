@@ -89,7 +89,7 @@ void Player::movePlayer()
 
         case RIGHT:
             currentHead.x++;
-            if(currentHead.x >= mainGameMechsRef->getBoardSizeX()- 2){
+            if(currentHead.x > mainGameMechsRef->getBoardSizeX() - 2){
                 currentHead.x = 1;
             }
             break;
@@ -103,7 +103,7 @@ void Player::movePlayer()
 
         case DOWN:
             currentHead.y++;
-            if(currentHead.y >= mainGameMechsRef->getBoardSizeY()- 2){
+            if(currentHead.y > mainGameMechsRef->getBoardSizeY() - 2){
                 currentHead.y = 1;
             }
             break;
@@ -115,4 +115,19 @@ void Player::movePlayer()
     playerPosList->insertHead(currentHead);
     playerPosList->removeTail();
 
+}
+
+bool Player::checkSelfCollision()
+{
+    objPos head;
+    objPos tempBody;
+    playerPosList->getHeadElement(head);
+
+    for(int i = 1; i < playerPosList->getSize(); i++){
+        playerPosList->getElement(tempBody, i);
+        if(tempBody.isPosEqual(&head)){
+            return true;
+        }
+    }
+    return false;
 }
